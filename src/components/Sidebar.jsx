@@ -20,18 +20,22 @@ import {
     CalendarDaysIcon,
     AdjustmentsHorizontalIcon,
   } from "@heroicons/react/24/solid";
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
+  import dumbbell from "../assets/dumb-bell.svg"
 
 
 const Sidebar = () => {
   return (
     <Card className="h-screen max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <div>
         <Typography variant="h5" color="blue-gray">
-            Navbar 
-            <ListItemPrefix>
-            {/* <ShoppingBagIcon className="h-5 w-5" /> */}
-            <img src="src/assets/dumbbell.svg" className="h-5 w-5"/>
+          Navbar 
+          <ListItemPrefix>
+            <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" />
           </ListItemPrefix>
         </Typography>
+      </div>
       <List>
         <ListItem>
           <ListItemPrefix>
@@ -41,8 +45,7 @@ const Sidebar = () => {
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            {/* <ShoppingBagIcon className="h-5 w-5" /> */}
-            <img src="src/assets/dumbbell.svg" className="h-5 w-5"/>
+            <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" />
           </ListItemPrefix>
           Workout
         </ListItem>
