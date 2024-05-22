@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import {
+    Avatar
+  } from "@material-tailwind/react";
 
 const Overview = () => {
     const [data, setData] = useState(null)
@@ -53,7 +56,7 @@ const Overview = () => {
             </p>
           </div>
           <div className="md:w-1/3">
-            <img src="/path/to/your/image.jpg" alt="Fitness" className="rounded-lg w-full" />
+            <img src={data.header.image} alt="Fitness" className="rounded-lg w-full" />
           </div>
         </div>
 
@@ -90,27 +93,30 @@ const Overview = () => {
             </div>
 
             {/* Posts */}
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
-              <div className="flex items-center mb-4">
-                <img src="/path/to/avatar.jpg" alt="User Avatar" className="h-10 w-10 rounded-full mr-4" />
-                <div>
-                  <h3 className="text-lg font-bold">Aizhan Maratovna</h3>
-                  <p className="text-gray-600">2 days ago</p>
+            {data.posts.map((post, index) => (
+                <div key="index" className="bg-white rounded-lg shadow p-6 mb-6">
+                <div className="flex items-center mb-4">
+                  <Avatar alt="User Avatar" className="h-10 w-10 rounded-full mr-4" src="https://docs.material-tailwind.com/img/face-2.jpg"/>
+                  <div>
+                    <h3 className="text-lg font-bold">{post.author.name}</h3>
+                    <p className="text-gray-600">{post.author.date}</p>
+                  </div>
+                </div>
+                <p className="mb-4">{post.content}</p>
+                <div className="flex justify-between items-center mb-4">
+                  <div className="flex">
+                    {post.tags.map((tag, index) => (
+                        <span key={index} className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold mr-2 text-gray-700">{tag}</span>
+                    ))}
+                  </div>
+                  <div className="flex space-x-4">
+                    <span className="text-gray-600">{post.stats.views} views</span>
+                    <span className="text-gray-600">{post.stats.likes} likes</span>
+                  </div>
                 </div>
               </div>
-              <p className="mb-4">I want to study Svelte JS Framework. What is the best resource should I use?</p>
-              <div className="flex items-center justify-between">
-                <div className="flex space-x-2">
-                  <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">svelte</span>
-                  <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">javascript</span>
-                  <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">recommendations</span>
-                </div>
-                <div className="flex space-x-4">
-                  <span className="text-gray-600"><i className="fas fa-eye"></i> 125</span>
-                  <span className="text-gray-600"><i className="fas fa-thumbs-up"></i> 155</span>
-                </div>
-              </div>
-            </div>
+            ))}
+            
           </div>
 
           {/* Right Column */}

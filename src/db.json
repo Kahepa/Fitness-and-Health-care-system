@@ -2,7 +2,7 @@
   "header": {
     "title": "Fitness with also a heath life",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "image": "/path/to/your/image.jpg"
+    "image": "src/assets/workout.jpg"
   },
   "statistics": [
     {

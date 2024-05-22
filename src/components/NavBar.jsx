@@ -16,7 +16,7 @@ import {
   return (
     <>
         <div className="p-4 flex">
-            <div className="flex flex-grow p-4 items-center justify-between gap-y-4">
+            <div className="flex flex-grow items-center justify-between gap-y-4">
                 <Typography variant="h5" color="blue-gray" className="flex-shrink-0">
                     Navbar
                 </Typography>

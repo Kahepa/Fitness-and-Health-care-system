@@ -28,13 +28,13 @@ import {
 const Sidebar = () => {
   return (
     <Card className="h-screen max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="flex justify-between items-center">
+      <div className="flex space-x-4 mx-auto w-1/2 items-center">
         <Typography variant="h5" color="blue-gray">
-          Navbar 
-          <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" /> 
+          FITNESS 
         </Typography>
+        <FontAwesomeIcon icon={faDumbbell} className="h-10 w-10 fill-current" />
       </div>
-      <List>
+      <List className=''>
         <ListItem>
           <ListItemPrefix>
             <Squares2X2Icon className="h-5 w-5" />
