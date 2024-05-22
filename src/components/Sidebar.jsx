@@ -28,12 +28,10 @@ import {
 const Sidebar = () => {
   return (
     <Card className="h-screen max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div>
+      <div className="flex justify-between items-center">
         <Typography variant="h5" color="blue-gray">
           Navbar 
-          <ListItemPrefix>
-            <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" />
-          </ListItemPrefix>
+          <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" /> 
         </Typography>
       </div>
       <List>

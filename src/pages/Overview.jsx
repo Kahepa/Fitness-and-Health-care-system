@@ -1,6 +1,45 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 
 const Overview = () => {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() =>{
+        const fetchData = async () => {
+            try{
+                const [headerRes, statisticsRes, goalProgressRes, scheduleRes, weekPlanRes, postsRes] = await Promise.all([
+                    fetch('http://localhost:5000/header'),
+                    fetch('http://localhost:5000/statistics'),
+                    fetch('http://localhost:5000/goalProgress'),
+                    fetch('http://localhost:5000/schedule'),
+                    fetch('http://localhost:5000/weekPlan'),
+                    fetch('http://localhost:5000/posts')
+                ]);
+
+                const header = await headerRes.json();
+                const statistics = await statisticsRes.json();
+                const goalProgress = await goalProgressRes.json();
+                const schedule = await scheduleRes.json();
+                const weekPlan = await weekPlanRes.json();
+                const posts = await postsRes.json();
+
+                setData({ header, statistics, goalProgress, schedule, weekPlan, posts });
+                setLoading(false);
+
+            }catch(error){
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+    },[]);
+    
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
   return (
   <> 
     <div className="min-h-screen bg-gray-100 p-6">
@@ -8,9 +47,9 @@ const Overview = () => {
         {/* Header Section */}
         <div className="bg-white rounded-lg shadow p-6 mb-6 flex flex-col md:flex-row items-center">
           <div className="md:w-2/3">
-            <h1 className="text-3xl font-bold mb-2">Fitness with also a heath life</h1>
+            <h1 className="text-3xl font-bold mb-2">{data.header.title}</h1>
             <p className="text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            {data.header.description}
             </p>
           </div>
           <div className="md:w-1/3">
@@ -24,25 +63,19 @@ const Overview = () => {
           <div className="lg:col-span-2">
             {/* Statistics Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="bg-blue-500 text-white rounded-lg shadow p-6">
+                {data.statistics.map((stat, index) => (
+              <div key={index} className="bg-blue-500 text-white rounded-lg shadow p-6">
                 <h2 className="text-xl font-bold">Workout</h2>
                 <p className="text-3xl">4 hrs</p>
               </div>
-              <div className="bg-orange-500 text-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-bold">Calories</h2>
-                <p className="text-3xl">1600 kcal</p>
-              </div>
-              <div className="bg-purple-500 text-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-bold">Steps</h2>
-                <p className="text-3xl">2200 steps</p>
-              </div>
+              ))}
             </div>
 
             {/* Goal Progress */}
             <div className="bg-white rounded-lg shadow p-6 mb-6">
-              <h2 className="text-xl font-bold mb-4">Goal Progress</h2>
+              <h2 className="text-xl font-bold mb-4">{data.goalProgress.title}</h2>
               <div className="flex justify-between items-center mb-4">
-                <p>Weekly</p>
+                <p>Timeframe: {data.goalProgress.timeframe}</p>
                 <div className="relative">
                   <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                     <option>Weekly</option>
@@ -84,58 +117,44 @@ const Overview = () => {
           <div className="lg:col-span-1">
             {/* My Schedule */}
             <div className="bg-white rounded-lg shadow p-6 mb-6">
-              <h2 className="text-xl font-bold mb-4">My Schedule</h2>
-              <ul>
-                <li className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="font-bold">Monday</h3>
-                    <p>Stretch</p>
-                  </div>
-                  <span className="bg-yellow-500 text-white rounded-full px-4 py-2">08:00 AM</span>
-                </li>
-                <li className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="font-bold">Tuesday</h3>
-                    <p>Back Stretch</p>
-                  </div>
-                  <span className="bg-yellow-500 text-white rounded-full px-4 py-2">08:00 AM</span>
-                </li>
-                <li className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="font-bold">Wednesday</h3>
-                    <p>Yoga</p>
-                  </div>
-                  <span className="bg-yellow-500 text-white rounded-full px-4 py-2">08:00 AM</span>
-                </li>
-              </ul>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">{data.schedule.title}</h2>
+                <a href="/schedule" className="text-orange-500 hover:text-orange-700">
+                  View All &gt;
+                </a>
+              </div>
+                <ul>
+                {data.schedule.events.map((event, index) => (
+                    <li key={index} className="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 className="font-bold">{event.day}</h3>
+                        <p>{event.activity}</p>
+                    </div>
+                    <span className="bg-yellow-500 text-white rounded-full px-4 py-2">{event.time}</span>
+                    </li>
+                ))}
+                </ul>
             </div>
 
             {/* Week Plan */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold mb-4">Week Plan</h2>
-              <ul>
-                <li className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold mb-4">{data.weekPlan.title}</h2>
+                <a className="text-orange-500 hover:text-orange-700">
+                    Viel All &gt;
+                </a>
+              </div>
+              { data.weekPlan.meals.map((meal, index) => (
+                <ul>
+                <li key={index} className="flex justify-between items-center mb-4">
                   <div>
-                    <h3 className="font-bold">Monday</h3>
-                    <p>Pizza | Break Fast</p>
+                    <h3 className="font-bold">{meal.day}</h3>
+                    <p>{meal.menu}</p>
                   </div>
-                  <span className="bg-orange-500 text-white rounded-full px-4 py-2">08:00 AM</span>
-                </li>
-                <li className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="font-bold">Tuesday</h3>
-                    <p>Chicken | Lunch</p>
-                  </div>
-                  <span className="bg-orange-500 text-white rounded-full px-4 py-2">01:00 PM</span>
-                </li>
-                <li className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="font-bold">Wednesday</h3>
-                    <p>Ice Cream | Dinner</p>
-                  </div>
-                  <span className="bg-orange-500 text-white rounded-full px-4 py-2">06:00 PM</span>
+                  <span className="bg-orange-500 text-white rounded-full px-4 py-2">{meal.time}</span>
                 </li>
               </ul>
+              )) }              
             </div>
           </div>
         </div>
