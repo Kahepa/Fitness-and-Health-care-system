@@ -22,7 +22,7 @@ import {
   } from "@heroicons/react/24/solid";
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
   import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-  import dumbbell from "../assets/dumb-bell.svg"
+  import { Link } from 'react-router-dom';
 
 
 const Sidebar = () => {
@@ -39,31 +39,31 @@ const Sidebar = () => {
           <ListItemPrefix>
             <Squares2X2Icon className="h-5 w-5" />
           </ListItemPrefix>
-          Overview
+          <Link to="/">Overview</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" />
           </ListItemPrefix>
-          Workout
+          <Link to="/Workout">Workout</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <AdjustmentsHorizontalIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Diet Plan
+          <Link to="/Diet Plan">Diet Plan</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <QuestionMarkCircleIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Questions
+          <Link to="/Questions">Questions</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <CalendarDaysIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Scheduler
+          <Link to="/Scheduler">Scheduler</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
