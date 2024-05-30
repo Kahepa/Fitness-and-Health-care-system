@@ -27,7 +27,7 @@ import {
 
 const Sidebar = () => {
   return (
-    <Card className="h-screen max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5">
+    <Card className="h-screen max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5 fixed">
       <div className="flex space-x-4 mx-auto w-1/2 items-center">
         <Typography variant="h5" color="blue-gray">
           FITNESS 

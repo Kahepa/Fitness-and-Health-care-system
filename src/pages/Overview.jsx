@@ -5,7 +5,7 @@ import {
   } from "@material-tailwind/react";
 
 const Overview = () => {
-    const [data, setData] = useState(null)
+    const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() =>{
