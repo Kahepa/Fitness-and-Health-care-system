@@ -27,14 +27,14 @@ import {
 
 const Sidebar = () => {
   return (
-    <Card className="h-screen max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5 fixed">
+    <Card className="h-full p-4 shadow-xl shadow-blue-gray-900/5 fixed">
       <div className="flex space-x-4 mx-auto w-1/2 items-center">
         <Typography variant="h5" color="blue-gray">
           FITNESS 
         </Typography>
-        <FontAwesomeIcon icon={faDumbbell} className="h-10 w-10 fill-current" />
+        <FontAwesomeIcon icon={faDumbbell} className="h-10 w-10" />
       </div>
-      <List className=''>
+      <List>
         <ListItem>
           <ListItemPrefix>
             <Squares2X2Icon className="h-5 w-5" />
@@ -43,7 +43,7 @@ const Sidebar = () => {
         </ListItem>
         <ListItem>
           <ListItemPrefix>
-            <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5 fill-current" />
+            <FontAwesomeIcon icon={faDumbbell} className="h-5 w-5" />
           </ListItemPrefix>
           <Link to="/Workout">Workout</Link>
         </ListItem>
@@ -51,7 +51,7 @@ const Sidebar = () => {
           <ListItemPrefix>
             <AdjustmentsHorizontalIcon className="h-5 w-5" />
           </ListItemPrefix>
-          <Link to="/Diet Plan">Diet Plan</Link>
+          <Link to="/DietPlan">Diet Plan</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
@@ -63,13 +63,13 @@ const Sidebar = () => {
           <ListItemPrefix>
             <CalendarDaysIcon className="h-5 w-5" />
           </ListItemPrefix>
-          <Link to="/Scheduler">Scheduler</Link>
+          <Link to="/MySchedule">Schedule</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <UserCircleIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Biometrics
+          <Link to="/Biometrics">Biometrics</Link>
         </ListItem>
         <div className="absolute bottom-0">
         <ListItem>

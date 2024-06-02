@@ -4,7 +4,7 @@ import Overview from '../pages/Overview'
 
 const Dashboard = () => {
   return (
-    <div className='flex-grow'>
+    <div>
         <Overview />
     </div>
   )
