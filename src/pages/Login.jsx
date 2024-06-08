@@ -30,7 +30,7 @@ const Login = () => {
         setShowSuccessModal(true);
         const timeoutId = setTimeout(() => {
           setShowSuccessModal(false);
-          navigate("/Overview");
+          navigate("/");
           setHideModalTimeout(null); // Clear timeout ID
         }, 2000);
         setHideModalTimeout(timeoutId);
