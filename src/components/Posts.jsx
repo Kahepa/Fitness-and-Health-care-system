@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 const Post = ({ post, addComment }) => {
   const [comment, setComment] = useState('');

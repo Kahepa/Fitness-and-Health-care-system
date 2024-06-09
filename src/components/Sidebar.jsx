@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     Card,
     Typography,
@@ -57,7 +56,7 @@ const Sidebar = () => {
           <ListItemPrefix>
             <QuestionMarkCircleIcon className="h-5 w-5" />
           </ListItemPrefix>
-          <Link to="/Questions">Questions</Link>
+          <Link to="/PostPage">Questions</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>

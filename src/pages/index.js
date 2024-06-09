@@ -7,6 +7,8 @@ import MySchedule from './MySchedule'
 import Biometrics from './Biometrics';
 import Otp from './Otp';
 import PostPage from './Post';
+import Adminpage from './AdminPage';
+import Exercise from './Exercise';
 
 export {
     Login,
@@ -17,5 +19,7 @@ export {
     MySchedule,
     Biometrics,
     Otp,
-    PostPage
+    PostPage,
+    Adminpage,
+    Exercise
 };
