@@ -1,10 +1,21 @@
 import axios from 'axios';
-import { config } from '../config';
-import { storage } from '../utils/storage';
 
-export const PRIVATE_API = axios.create({
-    baseURL: `${config.BASE_URI}`,
-    headers: {
-        Authorization: `Bearer ${storage.getToken()}`,
-    },
+const instance = axios.create({
+  baseURL: 'http://localhost:3001',
 });
+
+// Add a request interceptor to include the token in request headers
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default instance;

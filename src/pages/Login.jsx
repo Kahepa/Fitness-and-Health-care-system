@@ -1,21 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Typography, Input, Button } from "@material-tailwind/react";
-import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
-import axios from 'axios';
+import  { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
-
-const Login = () => {
-  const [passwordShown, setPasswordShown] = useState(false);
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [hideModalTimeout, setHideModalTimeout] = useState(null);
-  const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => setPasswordShown((cur) => !cur);
+  const navigate = useNavigate();
 
   const resetInputFields = () => {
     setEmail('');
@@ -25,26 +19,31 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/auth/login', { email, password });
-      if (response) {
-        const token = response.data.access_token;
-        localStorage.setItem('accessToken', token);
-        localStorage.setItem('currentLoggedInUserEmail', email);
+      const response = await axios.post(`http://localhost:3001/auth/login`, { email, password });
+      if (response && response.data) {
+        const { token, role } = response.data;
 
-        // Decode the token and log the decoded information
-        const decodedToken = jwt_decode(token);
-        console.log('Decoded Token:', decodedToken);
+        console.log('Login response:', response.data);
 
-        // Optionally, log the user's role
-        console.log('User Role:', decodedToken.role);
+        if (token) {
+          localStorage.setItem('accessToken', token);
+          localStorage.setItem('currentLoggedInUserEmail', email);
+          localStorage.setItem('userRole', role);
 
-        setShowSuccessModal(true);
-        const timeoutId = setTimeout(() => {
-          setShowSuccessModal(false);
-          navigate("/");
-          setHideModalTimeout(null); // Clear timeout ID
-        }, 2000);
-        setHideModalTimeout(timeoutId);
+          setShowSuccessModal(true);
+          const timeoutId = setTimeout(() => {
+            setShowSuccessModal(false);
+            if (role === 'admin' || role === 'nutritionist') {
+              navigate("/DietPlan");
+            } else {
+              setErrorMessage('Unauthorized role');
+            }
+            setHideModalTimeout(timeoutId);
+          }, 2000);
+        } else {
+          setErrorMessage('Login failed. Token not received.');
+          resetInputFields();
+        }
       } else {
         setErrorMessage("Network error, couldn't login user");
         resetInputFields();
@@ -54,10 +53,11 @@ const Login = () => {
         setErrorMessage('Incorrect email or password. Please try again.');
         resetInputFields();
       } else {
-        setErrorMessage('Server error. Please try again later.');
+        console.error('Server error. Please try again later.');
       }
     }
   };
+
   useEffect(() => {
     return () => {
       if (hideModalTimeout) {
@@ -66,118 +66,57 @@ const Login = () => {
     };
   }, [hideModalTimeout]);
 
+  const navigateBack = () => {
+    navigate('/home');
+  };
+
   const handleUserRegistration = () => {
     navigate('/signup');
   };
 
   return (
-    <section className="grid text-center h-screen  p-8">
-      <div>
-        <Typography variant="h3" color="blue-gray" className="mb-2">
-          Sign In
-        </Typography>
-        <Typography className="mb-16 text-gray-600 font-normal text-[18px]">
-          Enter your email and password to sign in
-        </Typography>
-        <form onSubmit={handleSubmit} className="mx-auto max-w-[24rem] text-left">
-          <div className="mb-6">
-            <label htmlFor="email">
-              <Typography
-                variant="small"
-                className="mb-2 block font-medium text-gray-900"
-              >
-                Your Email
-              </Typography>
-            </label>
-            <Input
-              id="email"
-              color="gray"
-              size="lg"
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@mail.com"
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
-              labelProps={{
-                className: "hidden",
-              }}
-            />
+    <>
+      <div className="d-flex mt-2 justify-content-center align-items-center">
+        <button className="btn btn-success" onClick={navigateBack}>View All Posts</button>
+      </div>
+      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <form className="col-md-6" onSubmit={handleSubmit}>
+
+          <div className={`modal fade ${showSuccessModal ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: showSuccessModal ? 'block' : 'none' }}>
+            <div className="modal-dialog" role="document">
+              <div className="modal-content bg-success">
+                <div className="modal-body text-white">
+                  User logged in successfully
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="mb-6">
-            <label htmlFor="password">
-              <Typography
-                variant="small"
-                className="mb-2 block font-medium text-gray-900"
-              >
-                Password
-              </Typography>
-            </label>
-            <Input
-              id="password"
-              size="lg"
-              placeholder="********"
-              labelProps={{
-                className: "hidden",
-              }}
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
-              type={passwordShown ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              icon={
-                <i onClick={togglePasswordVisibility}>
-                  {passwordShown ? (
-                    <EyeIcon className="h-5 w-5" />
-                  ) : (
-                    <EyeSlashIcon className="h-5 w-5" />
-                  )}
-                </i>
-              }
-            />
+
+          {errorMessage &&
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>{errorMessage}</strong>
+              <button type="button" className="close" onClick={() => setErrorMessage('')} aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          }
+
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1">Email address</label>
+            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <small id="emailHelp" className="form-text text-muted">ll never share your email with anyone else.</small>
           </div>
-          <Button color="gray" size="lg" className="mt-6" fullWidth type="submit">
-            Sign In
-          </Button>
-          <div className="!mt-4 flex justify-end">
-            <Typography
-              as="a"
-              href="#"
-              color="blue-gray"
-              variant="small"
-              className="font-medium"
-              onClick={() => navigate('/forgot-password')}
-            >
-              Forgot password
-            </Typography>
+          <div className="form-group">
+            <label htmlFor="exampleInputPassword1">Password</label>
+            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <small id="emailHelp" className="form-text text-muted">Please enter your password</small>
           </div>
-          <Button
-            variant="outlined"
-            size="lg"
-            className="mt-6 flex h-12 items-center justify-center gap-2"
-            fullWidth
-          >
-            <img
-              src={`https://www.material-tailwind.com/logos/logo-google.png`}
-              alt="google"
-              className="h-6 w-6"
-            />{" "}
-            Sign In with Google
-          </Button>
-          <Typography
-            variant="small"
-            color="gray"
-            className="!mt-4 text-center font-normal"
-          >
-            Not registered?{" "}
-            <a href="#" className="font-medium text-gray-900" onClick={handleUserRegistration}>
-              Create account
-            </a>
-          </Typography>
-          {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+          <button type="submit" className="btn btn-primary mr-1">Login</button>
+          <button type="button" className="btn btn-primary" onClick={handleUserRegistration}>Register</button>
         </form>
       </div>
-    </section>
+    </>
   );
-}
+};
 
-export default Login;
+export default SignIn;

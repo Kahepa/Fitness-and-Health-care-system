@@ -1,45 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import * as jwt_decode from 'jwt-decode';
- 
-const ProtectedRoute = ({ children, roles }) => {
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+import { Navigate, Outlet } from 'react-router-dom';
 
-  const checkUserToken = () => {
-    const userToken = localStorage.getItem('accessToken');
+// eslint-disable-next-line react/prop-types
+const ProtectedRoute = ({ roles }) => {
+  const token = localStorage.getItem('accessToken');
+  const userRole = localStorage.getItem('userRole');
 
-    if (!userToken || userToken === 'undefined') {
-      setIsLoggedIn(false);
-      return navigate('/Login');
-    }
+  if (!token) {
+    return <Navigate to="/Login" />;
+  }
 
-    try {
-      const decodedToken = jwt_decode(userToken); // Use the correct function
-      const userRole = decodedToken.role;
+  // eslint-disable-next-line react/prop-types
+  if (roles && !roles.includes(userRole)) {
+    return <Navigate to="/unauthorized" />;
+  }
 
-      if (roles && !roles.includes(userRole)) {
-        setIsLoggedIn(false);
-        return navigate('/Unauthorized'); // Redirect to unauthorized page
-      }
-
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Failed to decode token', error);
-      setIsLoggedIn(false);
-      return navigate('/Login');
-    }
-  };
-
-  useEffect(() => {
-    checkUserToken();
-  }, [isLoggedIn]);
-
-  return (
-    <>
-      {isLoggedIn ? children : null}
-    </>
-  );
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
