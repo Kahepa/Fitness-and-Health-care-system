@@ -3,6 +3,8 @@ import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import * as jwt_decode from 'jwt-decode';
+
 
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -25,8 +27,17 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:3001/auth/login', { email, password });
       if (response) {
-        localStorage.setItem('accessToken', response.data.access_token);
+        const token = response.data.access_token;
+        localStorage.setItem('accessToken', token);
         localStorage.setItem('currentLoggedInUserEmail', email);
+
+        // Decode the token and log the decoded information
+        const decodedToken = jwt_decode(token);
+        console.log('Decoded Token:', decodedToken);
+
+        // Optionally, log the user's role
+        console.log('User Role:', decodedToken.role);
+
         setShowSuccessModal(true);
         const timeoutId = setTimeout(() => {
           setShowSuccessModal(false);
@@ -47,7 +58,6 @@ const Login = () => {
       }
     }
   };
-
   useEffect(() => {
     return () => {
       if (hideModalTimeout) {
@@ -61,7 +71,7 @@ const Login = () => {
   };
 
   return (
-    <section className="grid text-center h-screen items-center p-8">
+    <section className="grid text-center h-screen  p-8">
       <div>
         <Typography variant="h3" color="blue-gray" className="mb-2">
           Sign In

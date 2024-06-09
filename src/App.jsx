@@ -3,27 +3,84 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
- } from 'react-router-dom'
+} from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MainLayout from './layouts/MainLayout';
-import { SignUp,Login,Otp,Workout,Questions,DietPlan,MySchedule,Biometrics,PostPage,Adminpage,Exercise} from './pages';
+import { SignUp, Login, Otp, Workout, Questions, DietPlan, MySchedule, Biometrics, PostPage, Adminpage, Exercise } from './pages';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path='/SignUp' element={<SignUp/>} />
-      <Route path='/Login' element={<Login/>} />
-      <Route path='/OTP' element={<Otp/>}/>
-      <Route path='/' element={<MainLayout/>}>
+      <Route path='/SignUp' element={<SignUp />} />
+      <Route path='/Login' element={<Login />} />
+      <Route path='/OTP' element={<Otp />} />
+      <Route path='/' element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path='/Workout' element={<Workout />} />
-        <Route path='/DietPlan' element={<DietPlan />} />
-        <Route path='/Questions' element={<Questions />} />
-        <Route path='/MySchedule' element={<MySchedule />} />
-        <Route path='/Biometrics' element={<Biometrics />} />
-        <Route path='/PostPage' element={<PostPage />} />
-        <Route path='/Adminpage' element={<Adminpage />} />
-        <Route path='/Exercise' element={<Exercise />} />
+        <Route 
+          path='/Workout' 
+          element={
+            <ProtectedRoute roles={['admin', 'nutritionist', 'user']}>
+              <Workout />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/DietPlan' 
+          element={
+            <ProtectedRoute roles={['admin', 'nutritionist']}>
+              <DietPlan />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/Questions' 
+          element={
+            <ProtectedRoute roles={['admin', 'user']}>
+              <Questions />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/MySchedule' 
+          element={
+            <ProtectedRoute roles={['user']}>
+              <MySchedule />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/Biometrics' 
+          element={
+            <ProtectedRoute roles={['admin', 'nutritionist', 'user']}>
+              <Biometrics />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/PostPage' 
+          element={
+            <ProtectedRoute roles={['admin', 'user']}>
+              <PostPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/Adminpage' 
+          element={
+            <ProtectedRoute roles={['admin']}>
+              <Adminpage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/Exercise' 
+          element={
+            <ProtectedRoute roles={['admin', 'nutritionist', 'user']}>
+              <Exercise />
+            </ProtectedRoute>
+          } 
+        />
       </Route>
     </Route>
   )
@@ -31,6 +88,6 @@ const router = createBrowserRouter(
 
 const App = () => {
   return <RouterProvider router={router} />;
-}
+};
 
-export default App
+export default App;
