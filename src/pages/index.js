@@ -6,6 +6,7 @@ import Questions from './Questions'
 import MySchedule from './MySchedule'
 import Biometrics from './Biometrics';
 import Otp from './Otp';
+import PostPage from './Post';
 
 export {
     Login,
@@ -15,5 +16,6 @@ export {
     Questions,
     MySchedule,
     Biometrics,
-    Otp
+    Otp,
+    PostPage
 };

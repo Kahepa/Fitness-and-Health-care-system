@@ -6,7 +6,7 @@ import {
  } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import MainLayout from './layouts/MainLayout';
-import { SignUp,Login,Otp,Workout,Questions,DietPlan,MySchedule,Biometrics} from './pages';
+import { SignUp,Login,Otp,Workout,Questions,DietPlan,MySchedule,Biometrics,PostPage} from './pages';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +21,7 @@ const router = createBrowserRouter(
         <Route path='/Questions' element={<Questions />} />
         <Route path='/MySchedule' element={<MySchedule />} />
         <Route path='/Biometrics' element={<Biometrics />} />
+        <Route path='/PostPage' element={<PostPage />} />
       </Route>
     </Route>
   )
