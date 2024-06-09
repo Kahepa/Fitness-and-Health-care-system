@@ -1,5 +1,4 @@
-import React from 'react'
-import NavBar from './NavBar'
+
 import Overview from '../pages/Overview'
 
 const Dashboard = () => {

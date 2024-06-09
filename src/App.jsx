@@ -11,10 +11,11 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<MainLayout />}>
+    <Route>
       <Route path='SignUp' element={<SignUp />} />
       <Route path='Login' element={<Login />} />
       <Route path='OTP' element={<Otp />} />
+      <Route path='/' element={<MainLayout />}>
       <Route index element={<HomePage />} />
       <Route 
         path='Workout' 
@@ -80,6 +81,7 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         } 
       />
+      </Route>
     </Route>
   )
 );

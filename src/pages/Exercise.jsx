@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../components/Workoutnavbar';
 import Achievements from '../components/Achievements';
 import Exercises from '../components/Exercises';

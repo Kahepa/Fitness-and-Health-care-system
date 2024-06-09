@@ -1,4 +1,3 @@
-import React from 'react';
 
 const exercises = [
   { title: 'Treadmill', img: 'treadmill.jpg', calories: 250, duration: '58:24' },
