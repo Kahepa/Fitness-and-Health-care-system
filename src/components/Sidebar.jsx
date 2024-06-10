@@ -16,10 +16,18 @@ import {
 } from "@heroicons/react/24/solid";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const userRole = localStorage.getItem('userRole');
+  const isAuthenticated = !!localStorage.getItem('userToken');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userRole');
+    navigate('/Login');
+  };
 
   return (
     <Card className="h-full p-4 shadow-xl shadow-blue-gray-900/5 fixed">
@@ -68,7 +76,7 @@ const Sidebar = () => {
             <Link to="/MySchedule">Schedule</Link>
           </ListItem>
         )}
-        {(userRole === 'admin' || userRole === 'nutritionist' || userRole === 'user') && (
+        {isAuthenticated && (userRole === 'admin' || userRole === 'nutritionist' || userRole === 'user') && (
           <ListItem>
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-5" />
@@ -107,7 +115,7 @@ const Sidebar = () => {
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem>
+          <ListItem onClick={handleLogout}>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>

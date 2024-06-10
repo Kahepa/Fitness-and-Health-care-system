@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MainLayout from './layouts/MainLayout';
-import { SignUp, Login, Otp, Workout, Questions, DietPlan, MySchedule, Biometrics, PostPage, Adminpage, Exercise } from './pages';
+import { SignUp, Login, Otp, Workout, Questions, DietPlan, MySchedule, Biometrics, PostPage, Adminpage, Exercise,BlogDetail,BlogPage} from './pages';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter(
@@ -78,6 +78,22 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute roles={['admin', 'nutritionist', 'user']}>
             <Exercise />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path='BlogDetail' 
+        element={
+          <ProtectedRoute roles={['admin', 'nutritionist', 'user']}>
+            <BlogDetail />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path='BlogPage' 
+        element={
+          <ProtectedRoute roles={['admin', 'nutritionist', 'user']}>
+            <BlogPage />
           </ProtectedRoute>
         } 
       />
