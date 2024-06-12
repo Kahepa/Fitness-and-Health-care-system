@@ -10,6 +10,10 @@ import { SignUp, Login, Otp, Workout, Questions, DietPlan, MySchedule, Biometric
 import ProtectedRoute from './components/ProtectedRoute';
 import VideoFormPage from './pages/VideoPage'; // Import the new page
 import VideoListPage from './pages/VideoListPage'; // Import the new page
+import NutritionPage from './pages/NutritionPage';
+import UserDetailPage from './pages/UserDetailPage';
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +22,8 @@ const router = createBrowserRouter(
       <Route path='Login' element={<Login />} />
       <Route path='OTP' element={<Otp />} />
       <Route path='VideoFormPage' element={<VideoFormPage />} />
+      <Route path="/nutrition" element={<NutritionPage />} />
+      <Route path="/userdetails/:id?" element={<UserDetailPage />} />
       <Route path='/' element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route 

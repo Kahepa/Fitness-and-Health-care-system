@@ -24,7 +24,7 @@ const SignIn = () => {
         const { token, role } = response.data;
 
         if (token) {
-          localStorage.setItem('accessToken', token);
+          localStorage.setItem('token', token);
           localStorage.setItem('currentLoggedInUserEmail', email);
           localStorage.setItem('userRole', role);
 
@@ -52,6 +52,7 @@ const SignIn = () => {
         resetInputFields();
       } else {
         console.error('Server error. Please try again later.');
+        setErrorMessage('Server error. Please try again later.');
       }
     }
   };
@@ -74,15 +75,12 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="flex  items-stretch md:flex-row min-h-screen bg-blue-500 p-5">
-        <div className=' self-start justify-center items-center '>
-        </div>
+      <div className="flex items-stretch md:flex-row min-h-screen bg-blue-500 p-5">
+        <div className="self-start justify-center items-center"></div>
         <form className="basis-1/2 self-center md:p-12 justify-center items-center gap-20" onSubmit={handleSubmit}>
           {showSuccessModal && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="bg-green-500 text-white p-4 rounded">
-                User logged in successfully
-              </div>
+              <div className="bg-green-500 text-white p-4 rounded">User logged in successfully</div>
             </div>
           )}
 
@@ -92,40 +90,39 @@ const SignIn = () => {
               <button type="button" className="ml-4" onClick={() => setErrorMessage('')}>×</button>
             </div>
           )}
-          <div className=" mt-20 grid grid-cols-2">
-          <div className=" ">
-            <label htmlFor="email" className=" text-black-700">Email </label>
-            <input
-              type="email"
-              id="email"
-              className="w-64 p-2 border border-gray-300 rounded mt-1"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          <div className="mt-20 grid grid-cols-2">
+            <div className="">
+              <label htmlFor="email" className="text-black-700">Email</label>
+              <input
+                type="email"
+                id="email"
+                className="w-64 p-2 border border-gray-300 rounded mt-1"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="">
+              <label htmlFor="password" className="block text-black-700">Password</label>
+              <input
+                type="password"
+                id="password"
+                className="w-64 p-2 border border-gray-300 rounded mt-1"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
           </div>
-          <div className="">
-            <label htmlFor="password" className="block text-black-700">Password</label>
-            <input
-              type="password"
-              id="password"
-              className="w-64 p-2 border border-gray-300 rounded mt-1"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          </div>
-          
-          <div className="mt-10  justify-items-center grid grid-cols-2 gap-2">
+
+          <div className="mt-10 justify-items-center grid grid-cols-2 gap-2">
             <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">Login</button>
             <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded" onClick={handleUserRegistration}>Register</button>
           </div>
         </form>
-        <div className="basis-1/2 hidden md:flex justify-center items-center bg-cover" style={{ backgroundImage: 'url(src/assets/Running.png)' }}>
-        </div>
+        <div className="basis-1/2 hidden md:flex justify-center items-center bg-cover" style={{ backgroundImage: 'url(src/assets/Running.png)' }}></div>
       </div>
     </>
   );
