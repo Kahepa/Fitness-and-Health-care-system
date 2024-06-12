@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -19,11 +19,9 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3001/auth/login`, { email, password });
+      const response = await axios.post('http://localhost:3001/auth/login', { email, password });
       if (response && response.data) {
         const { token, role } = response.data;
-
-        console.log('Login response:', response.data);
 
         if (token) {
           localStorage.setItem('accessToken', token);
@@ -34,7 +32,7 @@ const SignIn = () => {
           const timeoutId = setTimeout(() => {
             setShowSuccessModal(false);
             if (role === 'admin' || role === 'nutritionist') {
-              navigate("/DietPlan");
+              navigate('/VideoFormPage');
             } else {
               setErrorMessage('Unauthorized role');
             }
@@ -76,44 +74,58 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="d-flex mt-2 justify-content-center align-items-center">
-        <button className="btn btn-success" onClick={navigateBack}>View All Posts</button>
-      </div>
-      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-        <form className="col-md-6" onSubmit={handleSubmit}>
-
-          <div className={`modal fade ${showSuccessModal ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: showSuccessModal ? 'block' : 'none' }}>
-            <div className="modal-dialog" role="document">
-              <div className="modal-content bg-success">
-                <div className="modal-body text-white">
-                  User logged in successfully
-                </div>
+      <div className="flex  items-stretch md:flex-row min-h-screen bg-blue-500 p-5">
+        <div className=' self-start justify-center items-center '>
+        </div>
+        <form className="basis-1/2 self-center md:p-12 justify-center items-center gap-20" onSubmit={handleSubmit}>
+          {showSuccessModal && (
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="bg-green-500 text-white p-4 rounded">
+                User logged in successfully
               </div>
             </div>
-          </div>
+          )}
 
-          {errorMessage &&
-            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          {errorMessage && (
+            <div className="bg-red-500 text-white p-4 rounded mb-4">
               <strong>{errorMessage}</strong>
-              <button type="button" className="close" onClick={() => setErrorMessage('')} aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <button type="button" className="ml-4" onClick={() => setErrorMessage('')}>×</button>
             </div>
-          }
-
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <small id="emailHelp" className="form-text text-muted">ll never share your email with anyone else.</small>
+          )}
+          <div className=" mt-20 grid grid-cols-2">
+          <div className=" ">
+            <label htmlFor="email" className=" text-black-700">Email </label>
+            <input
+              type="email"
+              id="email"
+              className="w-64 p-2 border border-gray-300 rounded mt-1"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <small id="emailHelp" className="form-text text-muted">Please enter your password</small>
+          <div className="">
+            <label htmlFor="password" className="block text-black-700">Password</label>
+            <input
+              type="password"
+              id="password"
+              className="w-64 p-2 border border-gray-300 rounded mt-1"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
-          <button type="submit" className="btn btn-primary mr-1">Login</button>
-          <button type="button" className="btn btn-primary" onClick={handleUserRegistration}>Register</button>
+          </div>
+          
+          <div className="mt-10  justify-items-center grid grid-cols-2 gap-2">
+            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">Login</button>
+            <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded" onClick={handleUserRegistration}>Register</button>
+          </div>
         </form>
+        <div className="basis-1/2 hidden md:flex justify-center items-center bg-cover" style={{ backgroundImage: 'url(src/assets/Running.png)' }}>
+        </div>
       </div>
     </>
   );

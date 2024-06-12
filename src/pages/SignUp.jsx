@@ -67,20 +67,13 @@ const SignUp = () => {
   };
 
   return (
-    <section className="grid text-center h-screen items-center p-8">
-      <div>
-        <Typography variant="h3" color="blue-gray" className="mb-2">
-          Sign Up
-        </Typography>
-        <Typography className="mb-16 text-gray-600 font-normal text-[18px]">
-          Enter your credentials to register
-        </Typography>
-        <form onSubmit={handleSubmit} className="mx-auto max-w-[24rem] text-left">
+      <div className='grid grid-cols-2  items-stretch md:flex-row min-h-screen bg-blue-300 p-5 '>
+        <form onSubmit={handleSubmit} className=" self-center md:p-12 justify-center items-center gap-10">
           <div className="mb-6">
             <label htmlFor="username">
               <Typography
                 variant="small"
-                className="mb-2 block font-medium text-gray-900"
+                className="mb-2 block font-medium text-black"
               >
                 Username
               </Typography>
@@ -94,7 +87,7 @@ const SignUp = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Your username"
-              className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+              className="w-64 placeholder:opacity-100 focus:border-t-primary border-black"
               labelProps={{
                 className: "hidden",
               }}
@@ -104,7 +97,7 @@ const SignUp = () => {
             <label htmlFor="email">
               <Typography
                 variant="small"
-                className="mb-2 block font-medium text-gray-900"
+                className="mb-2 block font-medium text-black"
               >
                 Your Email
               </Typography>
@@ -184,8 +177,10 @@ const SignUp = () => {
           </Typography>
           {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
         </form>
+        <div className="hidden md:flex bg-cover" style={{ backgroundImage: 'url(src/assets/password2.png)' }}>
+        </div>
+        
       </div>
-    </section>
   );
 }
 
