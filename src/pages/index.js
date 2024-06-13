@@ -5,7 +5,7 @@ import DietPlan from './DietPlan';
 import Questions from './Questions'
 import MySchedule from './MySchedule'
 import Biometrics from './Biometrics';
-import Otp from './Otp';
+import Otp from './Verifyemail';
 import PostPage from './Post';
 import Adminpage from './AdminPage';
 import Exercise from './Exercise';
